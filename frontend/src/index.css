@@ -12,4 +12,7 @@ body {
   .brand {
     @apply font-bold bg-red-500 text-white rounded-md p-2 font-mono tracking-wide transform -rotate-3;
   }
+  .product-card {
+    @apply border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0)] hover:shadow-none transition duration-100 cursor-pointer;
+  }
 }
