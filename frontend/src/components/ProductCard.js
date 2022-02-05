@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Rating from "./Rating";
 
 const ProductCard = ({ product }) => {
   return (
@@ -8,7 +9,7 @@ const ProductCard = ({ product }) => {
         {product.brand}
       </div>
       <div className="rounded-md product-card p-2 group overflow-hidden h-full">
-        <div className="relative">
+        <div className="p-4">
           <img
             src={product.image}
             alt={product.name}
@@ -19,7 +20,11 @@ const ProductCard = ({ product }) => {
         <div className="px-4">
           <h1 className="my-2 font-semibold text-2xl">{product.name}</h1>
           <p className="my-4 font-normal  text-sm text-gray-600 ">
-            {product.rating} ⭐️ from {product.numReviews} reviews
+            {/* {product.rating} ⭐️ from {product.numReviews} reviews */}
+            <Rating
+              value={product.rating}
+              text={`${product.numReviews} reviews`}
+            />
           </p>
           <span className="inline-block my-4 font-normal text-xl rounded-md px-4 py-1 bg-gradient-to-r from-black to-[#272727] text-white">
             ${product.price}

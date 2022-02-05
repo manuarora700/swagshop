@@ -60,7 +60,7 @@ const products = [
     brand: "Logitech",
     category: "Electronics",
     price: 49.99,
-    countInStock: 7,
+    countInStock: 0,
     rating: 3.5,
     numReviews: 10,
   },

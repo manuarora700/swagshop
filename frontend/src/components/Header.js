@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <header className="bg-gay-800 flex flex-row justify-between items-center px-10 py-4 shadow">
-      <div className="brand ">🤩 Swagshop</div>
+      <div className="brand">
+        <Link to="/">🤩 Swagshop</Link>
+      </div>
       <div className="flex flex-row items-center space-x-4">
         <Link
           to="/cart"
