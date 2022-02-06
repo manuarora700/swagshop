@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Rating from "../components/Rating";
-import products from "../constants/products";
+import axios from "axios";
 
 const Product = () => {
+  const [product, setProduct] = useState({});
   const params = useParams();
-  const product = products.find((p) => p._id === params.id);
-  console.log("product", product);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${params.id}`);
+      setProduct(data);
+    };
+    fetchProduct();
+  }, [params]);
+
   return (
     <div className="grid grid-cols-3 gap-10 py-20 items-start max-w-7xl mx-auto">
-      {/* Image Container */}
       <div className="relative">
         <img
           src={product.image}

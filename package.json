@@ -1,0 +1,32 @@
+{
+  "name": "swagshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manuarora700/swagshop.git"
+  },
+  "author": "Manu Arora",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/manuarora700/swagshop/issues"
+  },
+  "homepage": "https://github.com/manuarora700/swagshop#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "nodemon": "^2.0.15"
+  }
+}

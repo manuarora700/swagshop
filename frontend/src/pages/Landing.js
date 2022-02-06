@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
-import products from "../constants/products";
+import axios from "axios";
 
 const Landing = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get("/api/products");
+      setProducts(data);
+    };
+    fetchProducts();
+  }, []);
   return (
     <div>
       <main className="max-w-7xl mx-auto">
