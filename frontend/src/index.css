@@ -16,3 +16,21 @@ body {
     @apply border-2 border-black shadow-[5px_5px_0px_0px_rgba(0,0,0)] hover:shadow-none transition duration-100 cursor-pointer;
   }
 }
+
+.loader {
+  border: 10px solid #eef0f1;
+  border-top: 10px solid #3b49df;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
