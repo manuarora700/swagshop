@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Rating from "../components/Rating";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,9 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 
 const Product = () => {
+  const [qty, setQty] = useState(1);
   const params = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const productDetails = useSelector((state) => state.productDetails);
@@ -17,6 +19,11 @@ const Product = () => {
   useEffect(() => {
     dispatch(listProductDetails(params.id));
   }, [dispatch, params]);
+
+  const addToCartHandler = () => {
+    console.log("qty", qty);
+    navigate(`/cart/${params.id}?qty=${qty}`);
+  };
 
   return (
     <>
@@ -53,7 +60,27 @@ const Product = () => {
               <p>Status: </p>
               <p>{product.countInStock > 0 ? "In Stock" : "Out of Stock"} </p>
             </div>
+            {product.countInStock > 0 && (
+              <div className="flex flex-row justify-between mb-4 pt-4">
+                <p>Quantity: </p>
+                <select
+                  value={qty}
+                  // type="number"
+                  className="border-2 border-black rounded-md px-4"
+                  onChange={(e) => setQty(e.target.value)}
+                >
+                  {[...Array(product.countInStock).keys()].map((elem, idx) => {
+                    return (
+                      <option key={elem + 1} value={elem + 1}>
+                        {elem + 1}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+            )}
             <button
+              onClick={addToCartHandler}
               disabled={product.countInStock === 0}
               className="block mx-auto w-11/12 my-4 font-normal text-sm rounded-md px-4 py-4 bg-gradient-to-r from-black to-[#272727] text-white "
             >
