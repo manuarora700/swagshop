@@ -24,6 +24,7 @@ export const userLoginReducer = (state = userLoginInitialState, action) => {
       };
     }
     case USER_LOGOUT: {
+      console.log("user logout dispatch");
       return {};
     }
     default: {
