@@ -48,10 +48,10 @@ const Header = () => {
                 <div className="px-1 py-1 ">
                   <Menu.Item>
                     <Link
-                      to="/account"
+                      to="/profile"
                       className={`bg-blue-500 text-white group flex rounded-md items-center w-full px-2 py-2 text-sm my-2`}
                     >
-                      🔨 Account
+                      🔨 Profile
                     </Link>
                   </Menu.Item>
                   <Menu.Item>
