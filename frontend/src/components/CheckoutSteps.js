@@ -28,7 +28,7 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
       </div>
       <div>
         {step3 ? (
-          <Link to="/place-order">Place Order &rarr;</Link>
+          <Link to="/place-order">Place Order</Link>
         ) : (
           <p className="text-gray-400">Place Order </p>
         )}
