@@ -25,10 +25,13 @@ const Login = () => {
   console.log("redirect...", redirect);
 
   useEffect(() => {
+    console.log("redirect....", redirect);
     if (userInfo) {
-      navigate(redirect);
+      navigate(
+        searchParams.get("redirect") ? `/${searchParams.get("redirect")}` : "/"
+      );
     }
-  }, [navigate, userInfo, redirect]);
+  }, [navigate, userInfo, redirect, searchParams]);
 
   const submitHandler = (e) => {
     e.preventDefault();
