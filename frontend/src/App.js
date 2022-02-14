@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import Shipping from "./pages/Shipping";
 import Payment from "./pages/Payment";
 import PlaceOrder from "./pages/PlaceOrder";
+import Order from "./pages/Order";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
         <Route path="/shipping" element={<Shipping />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/place-order" element={<PlaceOrder />} />
+        <Route path="/order/:id" element={<Order />} />
       </Routes>
       <Footer />
       <ToastContainer />
