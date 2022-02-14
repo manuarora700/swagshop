@@ -88,7 +88,7 @@ const orderSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-    paidAd: {
+    paidAt: {
       type: Date,
     },
     isDelivered: {

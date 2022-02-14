@@ -6,6 +6,9 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
+import axios from "axios";
+import { PayPalButton } from "react-paypal-button-v2";
+import moment from "moment";
 
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
@@ -15,9 +18,11 @@ import ErrorWell from "../components/ErrorWell";
 
 import { saveShippingAddress } from "../actions/cartActions";
 
-import { getOrderDetails } from "../actions/orderActions";
+import { getOrderDetails, payOrder } from "../actions/orderActions";
+import { ORDER_PAY_RESET } from "../constants/orderConstants";
 
 const Order = () => {
+  const [sdkReady, setSdkReady] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,6 +31,13 @@ const Order = () => {
 
   const orderDetails = useSelector((state) => state.orderDetails);
   const { loading, error, order } = orderDetails;
+
+  const orderPay = useSelector((state) => state.orderPay);
+  const {
+    loading: loadingPay,
+    success: successPay,
+    error: errorPay,
+  } = orderPay;
 
   if (!loading) {
     const addDecimals = (num) => {
@@ -37,11 +49,44 @@ const Order = () => {
     );
     order.shippingPrice = addDecimals(order.itemsPrice > 100 ? 0 : 100);
   }
+
   useEffect(() => {
+    const addPaypalScript = async () => {
+      const { data: clientId } = await axios.get("/api/config/paypal");
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.async = true;
+      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
+      console.log("clientId", clientId);
+      script.onload = () => {
+        setSdkReady(true);
+      };
+      document.body.appendChild(script);
+    };
+
+    if (!order || successPay) {
+      dispatch({ type: ORDER_PAY_RESET });
+      dispatch(getOrderDetails(orderId));
+      console.log("effect first level...");
+    } else if (!order.isPaid) {
+      if (!window.paypal) {
+        addPaypalScript();
+      } else {
+        console.log("effect second level...");
+        setSdkReady(true);
+      }
+    }
+
     if (!order || order._id !== orderId) {
       dispatch(getOrderDetails(orderId));
     }
-  }, [order, orderId]);
+    console.log("effect triggered...");
+  }, [dispatch, order, orderId, successPay]);
+
+  const successPaymentHandler = (paymentResult) => {
+    dispatch(payOrder(orderId, paymentResult));
+    // navigate("/");
+  };
 
   return (
     <div>
@@ -100,7 +145,7 @@ const Order = () => {
                   <p>
                     {order.isPaid ? (
                       <div className="rounded-md p-2 bg-green-500 text-white">
-                        Paid on {order.paidAt}. Good job!
+                        Paid on {moment(order.paidAt).format("LL")}. Good job!
                       </div>
                     ) : (
                       <div className="rounded-md p-2 bg-red-500 text-white">
@@ -158,6 +203,21 @@ const Order = () => {
                     <strong>Total: </strong> ${order.totalPrice}
                   </p>
                 </div>
+                {!order.isPaid && (
+                  <div>
+                    {loadingPay && <Loader />}
+                    {!sdkReady ? (
+                      <Loader />
+                    ) : (
+                      <div>
+                        <PayPalButton
+                          amount={order.totalPrice}
+                          onSuccess={successPaymentHandler}
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </>
